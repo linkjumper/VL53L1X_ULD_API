@@ -84,6 +84,10 @@ int8_t VL53L1_WaitMs(
 		uint16_t dev,
 		int32_t       wait_ms);
 
+int VL53L1X_Init_I2C(int i2c_bus, uint8_t i2c_addr);
+
+void VL53L1X_Deinit_I2C();
+
 #ifdef __cplusplus
 }
 #endif
