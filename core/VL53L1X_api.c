@@ -698,15 +698,13 @@ VL53L1X_ERROR VL53L1X_SetDistanceThreshold(uint16_t dev, uint16_t ThreshLow,
 	VL53L1X_ERROR status = 0;
 	uint8_t Temp = 0;
 
-	status = VL53L1_RdByte(dev, SYSTEM__INTERRUPT_CONFIG_GPIO, &Temp);
-	Temp = Temp & 0x47;
 	if (IntOnNoTarget == 0) {
-		status = VL53L1_WrByte(dev, SYSTEM__INTERRUPT_CONFIG_GPIO,
-			       (Temp | (Window & 0x07)));
+	    Temp |= Window & 0x07;
 	} else {
-		status = VL53L1_WrByte(dev, SYSTEM__INTERRUPT_CONFIG_GPIO,
-			       ((Temp | (Window & 0x07)) | 0x40));
+	    Temp |= (Window & 0x07) | 0x40;
 	}
+
+	status = VL53L1_WrByte(dev, SYSTEM__INTERRUPT_CONFIG_GPIO, Temp);
 	status = VL53L1_WrWord(dev, SYSTEM__THRESH_HIGH, ThreshHigh);
 	status = VL53L1_WrWord(dev, SYSTEM__THRESH_LOW, ThreshLow);
 	return status;
